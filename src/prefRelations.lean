@@ -10,11 +10,11 @@ def complete (R : A → A → Prop) : Prop :=
 def incomplete (R : A → A → Prop) : Prop :=
 ∀ x y, ¬ (R x y ∨ R y x)
 
-/- R is a relexive, complete, transitive relation -/
-parameter (reflR : reflexive R)
-parameter (compR : complete R)
-parameter (transR : transitive R)
+def rational (R : A → A → Prop) : Prop :=
+complete R ∧ reflexive R ∧ transitive R
 
+/- R is a relexive, complete, transitive relation -/
+parameter (rationalR : rational R)
 
 /- Defininig S the Strict Preference Relation-/
 def S (a b : A) : Prop := R a b ∧ ¬ R b a
@@ -24,7 +24,7 @@ def S (a b : A) : Prop := R a b ∧ ¬ R b a
 /-#################################-/
 
 /- Include the preference relations properties in proofs. -/
-include reflR transR compR 
+include rationalR 
 
 /- The Strict Relatoin is Irreflexive -/
 theorem irreflS : irreflexive S :=
@@ -48,7 +48,7 @@ end
 /- The Strict Relatoin is Transitive -/
 example: transitive S :=
 begin
-sorry
+sorry,
 end
 
 
