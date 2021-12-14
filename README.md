@@ -1,1 +1,1 @@
-mu project
+preferences projects
