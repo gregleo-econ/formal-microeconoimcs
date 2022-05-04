@@ -26,7 +26,7 @@ def S (a b : A) : Prop := R a b ∧ ¬ R b a
 /- Include the preference relations properties in proofs. -/
 include rationalR 
 
-/- The Strict Relatoin is Irreflexive -/
+/- The Strict Relation is Irreflexive -/
 theorem irreflS : irreflexive S :=
 begin
 assume x, --add object x to the context 
@@ -39,13 +39,14 @@ end
 /- Include irreflexivity of the strict relation in proofs. -/
 include irreflS
 
-/- The Strict Relatoin is Incomplete -/
+/- The Strict Relation is Incomplete -/
 theorem incompS : incomplete S :=
 begin
+assume x,
 sorry,
 end
 
-/- The Strict Relatoin is Transitive -/
+/- The Strict Relation is Transitive -/
 example: transitive S :=
 begin
 sorry,
@@ -53,24 +54,3 @@ end
 
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
