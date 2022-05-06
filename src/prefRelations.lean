@@ -8,61 +8,82 @@ parameters {A : Type} {R : A → A → Prop}
 def complete (R : A → A → Prop) : Prop :=
 ∀ x y, R x y ∨ R y x
 
-/- Defininig Complete Relations -/
+/- Defininig Incomplete Relations -/
 def incomplete (R : A → A → Prop) : Prop :=
 ∃ x y, ¬ (R x y ∨ R y x)
-
-def rational (R : A → A → Prop) : Prop :=
-complete R ∧ reflexive R ∧ transitive R
-
-/- R is a relexive, complete, transitive relation -/
-parameter (rationalR : rational R)
 
 /- Defininig S the Strict Preference Relation-/
 def S (a b : A) : Prop := R a b ∧ ¬ R b a
 
-/-###################################-/
-/- Properties of the Strict Relation-/
-/-#################################-/
+/- Defininig the Indifference Relation-/
+def I (a b : A) : Prop := R a b ∧ R b a
 
-/- Include the preference relations properties in proofs. -/
 
-/- The Strict Relation is Irreflexive -/
-theorem irreflS : irreflexive S :=
+/-Prop 1.9 https://assets.press.princeton.edu/chapters/s9890.pdf-/
+
+/- 1.9 a -/
+theorem propa [compR : complete R] [trnsR : transitive R][x : A][y : A]: S x y ↔ ¬ R y x :=
 begin
-intros x R, /-Put an object and the reltion into the proof context.-/
-cases R,  /-Split S into Rxx and ¬ Rxx-/
-finish, /-Show False-/
-end
-
-/- The Strict Relation is Incomplete -/
-theorem incompS [nonempty A]: incomplete S :=
-begin
-inhabit A, /-Get an item in the A.-/
-use [default, default], /-Use some object in A.-/
-norm_num, /-Simplify goal.-/
-intro hS,
-cases hS,
-trivial, 
-end
-
-theorem transitiveS : rational R → transitive S :=
-begin
-intro rationalR,
-cases rationalR,
-cases rationalR_right,
-intro x,
-intro y,
-intro z,
-intro Sxy,
-intro Syz,
-cases Syz, cases Sxy,
 fconstructor,
-tauto,
-
-
-
-
-
+{
+intro sxy,
+cases sxy,
+finish,
+},
+{
+intro nryx,
+have rxy : R x y ∨ R y x, from compR x y,
+fconstructor,
+{tauto},
+{tauto}
+}
 end
+
+/- 1.9 b -/
+theorem propb [compR : complete R] [trnsR : transitive R][x : A][y : A]: S x y → ¬ S y x :=
+begin
+sorry,
+end
+
+/- 1.9 c -/
+theorem propc [compR : complete R] [trnsR : transitive R][x : A][y : A][z : A]: S x y → (S z y ∨ S x z) :=
+begin
+sorry,
+end
+
+/- 1.9 d -/
+theorem propd [compR : complete R] [trnsR : transitive R][x : A]: I x x :=
+begin
+sorry,
+end
+
+/- 1.9 e -/
+theorem prope [compR : complete R] [trnsR : transitive R][x : A][y : A]: I x y → I x y :=
+begin
+sorry,
+end
+
+/- 1.9 f -/
+theorem propf [compR : complete R] [trnsR : transitive R][x : A][y : A][z : A]: (I x y ∧ I y z) → I x z :=
+begin
+sorry,
+end
+
+/- 1.9 g -/
+theorem propg [compR : complete R] [trnsR : transitive R][x : A][y : A][z : A]: (S x y ∧ R y z) → S x z :=
+begin
+sorry,
+end
+
+/- 1.9 h -/
+theorem proph [compR : complete R] [trnsR : transitive R][x : A][y : A][z : A]: (S x y ∧ S y z) → S x z :=
+begin
+intro sxyandsyx,
+cases sxyandsyx,
+cases sxyandsyx_right, cases sxyandsyx_left,
+fconstructor,
+{tauto},
+{sorry,}
+end
+
 end
