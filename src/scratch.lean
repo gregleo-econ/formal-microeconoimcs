@@ -1,5 +1,3 @@
-import tactic
-
 section
 
 parameters {A : Type} {R : A → A → Prop}
@@ -10,7 +8,7 @@ def complete (R : A → A → Prop) : Prop :=
 
 /- Defininig Complete Relations -/
 def incomplete (R : A → A → Prop) : Prop :=
-∃ x y, ¬ (R x y ∨ R y x)
+∀ x y, ¬ (R x y ∨ R y x)
 
 def rational (R : A → A → Prop) : Prop :=
 complete R ∧ reflexive R ∧ transitive R
@@ -26,43 +24,33 @@ def S (a b : A) : Prop := R a b ∧ ¬ R b a
 /-#################################-/
 
 /- Include the preference relations properties in proofs. -/
+include rationalR 
 
 /- The Strict Relation is Irreflexive -/
 theorem irreflS : irreflexive S :=
 begin
-intros x R, /-Put an object and the reltion into the proof context.-/
-cases R,  /-Split S into Rxx and ¬ Rxx-/
-finish, /-Show False-/
+assume x, --add object x to the context 
+assume sxx : S x x, --assume the opposite to derive a contradsiction
+have nrxx : ¬ R x x, from and.right sxx, --get the ¬ x≿x from the definition of ≻ 
+have rxx : R x x, from and.left sxx, --get the x≿x from the definition of ≻ 
+show false, from nrxx rxx, --show the contradiction
 end
+
+/- Include irreflexivity of the strict relation in proofs. -/
+include irreflS
 
 /- The Strict Relation is Incomplete -/
-theorem incompS [nonempty A]: incomplete S :=
+theorem incompS : incomplete S :=
 begin
-inhabit A, /-Get an item in the A.-/
-use [default, default], /-Use some object in A.-/
-norm_num, /-Simplify goal.-/
-intro hS,
-cases hS,
-trivial, 
+assume x,
+sorry,
 end
 
-theorem transitiveS : rational R → transitive S :=
+/- The Strict Relation is Transitive -/
+example: transitive S :=
 begin
-intro rationalR,
-cases rationalR,
-cases rationalR_right,
-intro x,
-intro y,
-intro z,
-intro Sxy,
-intro Syz,
-cases Syz, cases Sxy,
-fconstructor,
-tauto,
-
-
-
-
-
+sorry,
 end
+
+
 end
