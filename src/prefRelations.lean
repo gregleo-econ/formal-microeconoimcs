@@ -90,6 +90,8 @@ end
 /- 1.9 g -/
 theorem propg [compR : complete R] [trnsR : transitive R][x : A][y : A][z : A]: (S x y ∧ R y z) → S x z :=
 begin
+intro sxyandryz,
+cases sxyandryz,
 sorry,
 end
 
