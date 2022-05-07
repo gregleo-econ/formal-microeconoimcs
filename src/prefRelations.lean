@@ -24,7 +24,7 @@ def I (a b : A) : Prop := R a b ∧ R b a
 /- 1.9 a -/
 theorem propa [compR : complete R] [trnsR : transitive R][x : A][y : A]: S x y ↔ ¬ R y x :=
 begin
-fconstructor,
+constructor,
 {
 intro sxy,
 cases sxy,
@@ -33,7 +33,7 @@ finish,
 {
 intro nryx,
 have rxy : R x y ∨ R y x, from compR x y,
-fconstructor,
+constructor,
 {tauto},
 {tauto}
 }
@@ -42,12 +42,17 @@ end
 /- 1.9 b -/
 theorem propb [compR : complete R] [trnsR : transitive R][x : A][y : A]: S x y → ¬ S y x :=
 begin
-sorry,
+intro sxy,
+intro nsyx,
+cases sxy,
+cases nsyx,
+tauto,
 end
 
 /- 1.9 c -/
 theorem propc [compR : complete R] [trnsR : transitive R][x : A][y : A][z : A]: S x y → (S z y ∨ S x z) :=
 begin
+intro syx,
 sorry,
 end
 
