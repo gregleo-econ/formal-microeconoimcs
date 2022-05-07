@@ -59,19 +59,32 @@ end
 /- 1.9 d -/
 theorem propd [compR : complete R] [trnsR : transitive R][x : A]: I x x :=
 begin
-sorry,
+have rxx : R x x ∨ R x x, from compR x x,
+simp at *,
+constructor,
+tauto,
+tauto,
 end
 
 /- 1.9 e -/
-theorem prope [compR : complete R] [trnsR : transitive R][x : A][y : A]: I x y → I x y :=
+theorem prope [compR : complete R] [trnsR : transitive R][x : A][y : A]: I x y → I y x :=
 begin
-sorry,
+intro ixy,
+cases ixy,
+fconstructor,
+tauto,
+tauto,
 end
 
 /- 1.9 f -/
 theorem propf [compR : complete R] [trnsR : transitive R][x : A][y : A][z : A]: (I x y ∧ I y z) → I x z :=
 begin
-sorry,
+intro ixyandiyz,
+cases ixyandiyz,
+cases ixyandiyz_right, cases ixyandiyz_left,
+constructor,
+tauto,
+tauto,
 end
 
 /- 1.9 g -/
