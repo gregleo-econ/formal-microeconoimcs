@@ -1,7 +1,14 @@
 # Formal Preferences
 
-This is a project formalizing preference theory in economics using the Lean theorem prover. 
+This is a project formalizing foundations of microeconomic theory with the [Lean proof assistant](https://leanprover.github.io/). 
 
-## State
+## Contributors 
 
-This is a *learning project*. It will grow with me as I learn Lean but contains little of value at the moment. 
+[Greg Leo - *Vanderbilt*](https://gregcleo.com)
+
+## Status
+
+**Kreps, D. M. (2013). Microeconomic foundations I: choice and competitive markets (Vol. 1). Princeton university press.**
+
+**Proposition 1.9** *In Progress*
+
