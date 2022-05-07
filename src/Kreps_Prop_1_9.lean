@@ -77,11 +77,12 @@ tauto,
 end
 
 /- 1.9 f -/
-theorem propf [compR : complete R] [trnsR : transitive R][x : A][y : A][z : A]: (I x y ∧ I y z) → I x z :=
+theorem propf [compR : complete R] [trnsR : transitive R][x : A][y : A][z : A]: 
+(I x y ∧ I y z) → I x z :=
 begin
-intro ixyandiyz,
-cases ixyandiyz,
-cases ixyandiyz_right, cases ixyandiyz_left,
+intro IxyandIyz,
+cases IxyandIyz,
+cases IxyandIyz_right, cases IxyandIyz_left,
 constructor,
 tauto,
 tauto,
@@ -92,18 +93,33 @@ theorem propg [compR : complete R] [trnsR : transitive R][x : A][y : A][z : A]: 
 begin
 intro sxyandryz,
 cases sxyandryz,
-sorry,
+cases sxyandryz_left,
+constructor,
+{
+  have rxz : R x z, from trnsR sxyandryz_left_left sxyandryz_right,
+  tauto
+},
+{
+  have rxz : R x z, from trnsR sxyandryz_left_left sxyandryz_right,
+  assume rzx : R z x,
+  have ryx : R y x, from trnsR sxyandryz_right rzx,
+  tauto,
+}
+
+
+
+
 end
+
 
 /- 1.9 h -/
 theorem proph [compR : complete R] [trnsR : transitive R][x : A][y : A][z : A]: (S x y ∧ S y z) → S x z :=
 begin
 intro sxyandsyx,
 cases sxyandsyx,
-cases sxyandsyx_right, cases sxyandsyx_left,
-fconstructor,
-{tauto},
-{sorry,}
+cases sxyandsyx_right,
+sorry,
+
 end
 
 end
