@@ -22,9 +22,9 @@ def I (a b : A) : Prop := R a b ∧ R b a
 /-Prop 1.9 https://assets.press.princeton.edu/chapters/s9890.pdf-/
 
 /- 1.9 a -/
-theorem propa (compR : complete R) (trnsR : transitive R)(x : A)(y : A): S x y ↔ ¬ R y x :=
+theorem propa [compR : complete R] [trnsR : transitive R][x : A][y : A]: S x y ↔ ¬ R y x :=
 begin
-split,
+constructor,
 {
 intro sxy,
 cases sxy,
@@ -33,15 +33,14 @@ finish,
 {
 intro nryx,
 have rxy : R x y ∨ R y x, from compR x y,
-rw [S],
-split,
+constructor,
 {tauto},
 {tauto}
 }
 end
 
 /- 1.9 b -/
-theorem propb (compR : complete R) (trnsR : transitive R)(x : A)(y : A): S x y → ¬ S y x :=
+theorem propb [compR : complete R] [trnsR : transitive R][x : A][y : A]: S x y → ¬ S y x :=
 begin
 intro sxy,
 intro nsyx,
@@ -50,49 +49,52 @@ cases nsyx,
 tauto,
 end
 
+/- 1.9 c -/
+theorem propc [compR : complete R] [trnsR : transitive R][x : A][y : A][z : A]: S x y → (S z y ∨ S x z) :=
+begin
+intro syx,
+sorry,
+end
+
 /- 1.9 d -/
-theorem propd (compR : complete R) (trnsR : transitive R)(x : A): I x x :=
+theorem propd [compR : complete R] [trnsR : transitive R][x : A]: I x x :=
 begin
 have rxx : R x x ∨ R x x, from compR x x,
 simp at *,
-rw [I],
-split,
+constructor,
 tauto,
 tauto,
 end
 
 /- 1.9 e -/
-theorem prope (compR : complete R) (trnsR : transitive R)(x : A)(y : A): I x y → I y x :=
+theorem prope [compR : complete R] [trnsR : transitive R][x : A][y : A]: I x y → I y x :=
 begin
 intro ixy,
 cases ixy,
-rw [I],
-split,
+fconstructor,
 tauto,
 tauto,
 end
 
 /- 1.9 f -/
-theorem propf (compR : complete R) (trnsR : transitive R)(x : A)(y : A)(z : A): 
+theorem propf [compR : complete R] [trnsR : transitive R][x : A][y : A][z : A]: 
 (I x y ∧ I y z) → I x z :=
 begin
 intro IxyandIyz,
 cases IxyandIyz,
 cases IxyandIyz_right, cases IxyandIyz_left,
-rw [I],
-split,
+constructor,
 tauto,
 tauto,
 end
 
 /- 1.9 g -/
-theorem propg (compR : complete R) (trnsR : transitive R)(x : A)(y : A)(z : A): (S x y ∧ R y z) → S x z :=
+theorem propg [compR : complete R] [trnsR : transitive R][x : A][y : A][z : A]: (S x y ∧ R y z) → S x z :=
 begin
 intro sxyandryz,
 cases sxyandryz,
 cases sxyandryz_left,
-rw [S],
-split,
+constructor,
 {
   have rxz : R x z, from trnsR sxyandryz_left_left sxyandryz_right,
   tauto
@@ -111,25 +113,17 @@ end
 
 
 /- 1.9 h -/
-theorem proph (compR : complete R) (trnsR : transitive R)(x : A)(y : A)(z : A): (S x y ∧ S y z) → S x z :=
+theorem proph [compR : complete R] [trnsR : transitive R][x : A][y : A][z : A]: (S x y ∧ S y z) → S x z :=
 begin
 intro sxyandsyx,
 cases sxyandsyx,
 cases sxyandsyx_right,
-exact propg compR trnsR x y z (and.intro sxyandsyx_left sxyandsyx_right_left)
-end
 
 
-/- 1.9 c -/
-theorem propc (compR : complete R) (trnsR : transitive R)(x : A)(y : A)(z : A): S x y → (S z y ∨ S x z) :=
-begin
-intro syx,
-by_contradiction contra,
-tauto,
-simp at contra_left,
-sorry,
+
+
+
 
 end
-
 
 end
