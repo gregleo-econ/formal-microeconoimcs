@@ -1,4 +1,5 @@
-import tactic
+import tactic 
+
 open classical
 
 section
@@ -131,40 +132,40 @@ cases h2,
 {rename [sxy_left rxy, sxy_right nryx, h1 ryz, h2 rxz],
 have sxy : S x y, from and.intro rxy nryx,
 have sxz : S x z, from propg compR trnsR x y z (and.intro sxy ryz),
-tauto,
+apply or.inr,
+assumption,
 },
 {rename [sxy_left rxy, sxy_right nryx, h1 ryz, h2 rzx],
 have sxy : S x y, from and.intro rxy nryx,
 have sxz : S x z, from propg compR trnsR x y z (and.intro sxy ryz),
-tauto,
+apply or.inr,
+assumption,
 },
 {
 cases h2,
 {rename [sxy_left rxy, sxy_right nryx, h1 rzy, h2 rxz],
 have sxy : S x y, from and.intro rxy nryx,
-by_contra,
-tauto,
-sorry,
-
-
-
-
+by_contra' h,
+cases h,
+rename [h_left nSzy, h_right nSxz],
+rw S at nSzy,
+simp * at nSzy,
+rename [nSzy ryz],
+have sxz : S x z, from propg compR trnsR x y z (and.intro sxy ryz),
+trivial,
 },
-
-
 {rename [sxy_left rxy, sxy_right nryx, h1 rzy, h2 rzx],
 have sxy : S x y, from and.intro rxy nryx,
-by_contra,
-tauto,
-sorry,
-
-
+by_contra' h,
+cases h,
+rename [h_left nSzy, h_right nSxz],
+rw S at nSzy,
+simp * at nSzy,
+rename [nSzy ryz],
+have sxz : S x z, from propg compR trnsR x y z (and.intro sxy ryz),
+trivial,
 },
 }
-  
-
-
-
 
 end
 
