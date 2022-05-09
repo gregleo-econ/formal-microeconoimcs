@@ -127,8 +127,45 @@ have h1 : R y z ∨ R z y, from compR y z,
 have h2 : R x z ∨ R z x, from compR x z,
 cases sxy,
 cases h1,
+cases h2,
+{rename [sxy_left rxy, sxy_right nryx, h1 ryz, h2 rxz],
+have sxy : S x y, from and.intro rxy nryx,
+have sxz : S x z, from propg compR trnsR x y z (and.intro sxy ryz),
+tauto,
+},
+{rename [sxy_left rxy, sxy_right nryx, h1 ryz, h2 rzx],
+have sxy : S x y, from and.intro rxy nryx,
+have sxz : S x z, from propg compR trnsR x y z (and.intro sxy ryz),
+tauto,
+},
+{
+cases h2,
+{rename [sxy_left rxy, sxy_right nryx, h1 rzy, h2 rxz],
+have sxy : S x y, from and.intro rxy nryx,
+by_contra,
+tauto,
 sorry,
+
+
+
+
+},
+
+
+{rename [sxy_left rxy, sxy_right nryx, h1 rzy, h2 rzx],
+have sxy : S x y, from and.intro rxy nryx,
+by_contra,
+tauto,
 sorry,
+
+
+},
+}
+  
+
+
+
+
 end
 
 
