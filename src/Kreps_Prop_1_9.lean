@@ -37,8 +37,8 @@ intro nryx,
 have rxy : R x y ∨ R y x, from compR x y,
 rw [S],
 split,
-{tauto},
-{tauto}
+{tauto,},
+{tauto,}
 }
 end
 
@@ -160,9 +160,10 @@ by_contra' h,
 cases h,
 rename [h_left nSzy, h_right nSxz],
 rw S at nSzy,
-simp * at nSzy,
-rename [nSzy ryz],
-have sxz : S x z, from propg compR trnsR x y z (and.intro sxy ryz),
+push_neg at nSzy,
+rename nSzy h,
+have Ryz : R y z, from h rzy,
+have sxz : S x z, from propg compR trnsR x y z (and.intro sxy Ryz),
 trivial,
 },
 }
