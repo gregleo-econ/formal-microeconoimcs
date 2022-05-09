@@ -1,4 +1,5 @@
 import tactic
+open classical
 
 section
 
@@ -22,7 +23,7 @@ def I (a b : A) : Prop := R a b ∧ R b a
 /-Prop 1.9 https://assets.press.princeton.edu/chapters/s9890.pdf-/
 
 /- 1.9 a -/
-theorem propa (compR : complete R) (trnsR : transitive R)(x : A)(y : A): S x y ↔ ¬ R y x :=
+theorem propa (compR : complete R) (x : A)(y : A): S x y ↔ ¬ R y x :=
 begin
 split,
 {
@@ -40,13 +41,14 @@ split,
 }
 end
 
+
 /- 1.9 b -/
 theorem propb (compR : complete R) (trnsR : transitive R)(x : A)(y : A): S x y → ¬ S y x :=
 begin
 intro sxy,
-intro nsyx,
+intro syx,
 cases sxy,
-cases nsyx,
+cases syx,
 tauto,
 end
 
@@ -103,10 +105,6 @@ split,
   have ryx : R y x, from trnsR sxyandryz_right rzx,
   tauto,
 }
-
-
-
-
 end
 
 
@@ -120,15 +118,17 @@ exact propg compR trnsR x y z (and.intro sxyandsyx_left sxyandsyx_right_left)
 end
 
 
+
 /- 1.9 c -/
 theorem propc (compR : complete R) (trnsR : transitive R)(x : A)(y : A)(z : A): S x y → (S z y ∨ S x z) :=
 begin
-intro syx,
-by_contradiction contra,
-tauto,
-simp at contra_left,
+intro sxy,
+have h1 : R y z ∨ R z y, from compR y z,
+have h2 : R x z ∨ R z x, from compR x z,
+cases sxy,
+cases h1,
 sorry,
-
+sorry,
 end
 
 
