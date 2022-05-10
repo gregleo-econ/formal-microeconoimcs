@@ -40,7 +40,7 @@ end
 /- 1.9 d -/
 theorem propd (compR : complete R) (trnsR : transitive R)(x : A): I x x :=
 begin
-have rxx : R x x ∨ R x x, from compR x x, rw [I], tauto,
+have Rxx : R x x ∨ R x x, from compR x x, rw [I], tauto,
 end
 
 /- 1.9 e -/
@@ -68,49 +68,50 @@ end
 /- 1.9 h -/
 theorem proph (compR : complete R) (trnsR : transitive R)(x : A)(y : A)(z : A): (S x y ∧ S y z) → S x z :=
 begin
-intro SxyandSyx, cases SxyandSyx, rename[SxyandSyx_left Sxy, SxyandSyx_right Syz], rw [S] at Syz, cases Syz, rename[Syz_left Ryz, Syz_right nRzy], exact propg compR trnsR x y z (and.intro Sxy Ryz), 
+intro SxyandSyx, cases SxyandSyx, rename[SxyandSyx_left Sxy, SxyandSyx_right Syz], rw [S] at Syz, cases Syz, 
+rename[Syz_left Ryz, Syz_right nRzy], exact propg compR trnsR x y z (and.intro Sxy Ryz), 
 end
 
 /- 1.9 c -/
 theorem propc (compR : complete R) (trnsR : transitive R)(x : A)(y : A)(z : A): S x y → (S z y ∨ S x z) :=
 begin
-intro sxy, have h1 : R y z ∨ R z y, from compR y z, have h2 : R x z ∨ R z x, from compR x z, cases sxy, cases h1, cases h2,
-{rename [sxy_left rxy, sxy_right nryx, h1 ryz, h2 rxz],
-have sxy : S x y, from and.intro rxy nryx,
-have sxz : S x z, from propg compR trnsR x y z (and.intro sxy ryz),
+intro Sxy, have h1 : R y z ∨ R z y, from compR y z, have h2 : R x z ∨ R z x, from compR x z, cases Sxy, cases h1, cases h2,
+{rename [Sxy_left Rxy, Sxy_right nRyx, h1 Ryz, h2 Rxz],
+have Sxy : S x y, from and.intro Rxy nRyx,
+have Sxz : S x z, from propg compR trnsR x y z (and.intro Sxy Ryz),
 apply or.inr,
 assumption,
 },
-{rename [sxy_left rxy, sxy_right nryx, h1 ryz, h2 rzx],
-have sxy : S x y, from and.intro rxy nryx,
-have sxz : S x z, from propg compR trnsR x y z (and.intro sxy ryz),
+{rename [Sxy_left Rxy, Sxy_right nRyx, h1 Ryz, h2 Rzx],
+have Sxy : S x y, from and.intro Rxy nRyx,
+have Sxz : S x z, from propg compR trnsR x y z (and.intro Sxy Ryz),
 apply or.inr,
 assumption,
 },
 {
 cases h2,
-{rename [sxy_left rxy, sxy_right nryx, h1 rzy, h2 rxz],
-have sxy : S x y, from and.intro rxy nryx,
+{rename [Sxy_left Rxy, Sxy_right nRyx, h1 Rzy, h2 Rxz],
+have Sxy : S x y, from and.intro Rxy nRyx,
 by_contra' h,
 cases h,
 rename [h_left nSzy, h_right nSxz],
 rw S at nSzy,
 push_neg at nSzy,
 rename nSzy h,
-have Ryz : R y z, from h rzy,
-have sxz : S x z, from propg compR trnsR x y z (and.intro sxy Ryz),
+have Ryz : R y z, from h Rzy,
+have Sxz : S x z, from propg compR trnsR x y z (and.intro Sxy Ryz),
 trivial,
 },
-{rename [sxy_left rxy, sxy_right nryx, h1 rzy, h2 rzx],
-have sxy : S x y, from and.intro rxy nryx,
+{rename [Sxy_left Rxy, Sxy_right nRyx, h1 Rzy, h2 Rzx],
+have Sxy : S x y, from and.intro Rxy nRyx,
 by_contra' h,
 cases h,
 rename [h_left nSzy, h_right nSxz],
 rw S at nSzy,
 push_neg at nSzy,
 rename nSzy h,
-have Ryz : R y z, from h rzy,
-have sxz : S x z, from propg compR trnsR x y z (and.intro sxy Ryz),
+have Ryz : R y z, from h Rzy,
+have Sxz : S x z, from propg compR trnsR x y z (and.intro Sxy Ryz),
 trivial,
 },
 }
