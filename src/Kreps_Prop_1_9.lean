@@ -1,5 +1,4 @@
 import tactic 
-
 open classical
 
 section
@@ -27,108 +26,55 @@ def I (a b : A) : Prop := R a b ∧ R b a
 theorem propa (compR : complete R) (x : A)(y : A): S x y ↔ ¬ R y x :=
 begin
 split,
-{
-intro sxy,
-cases sxy,
-finish,
-},
-{
-intro nryx,
-have rxy : R x y ∨ R y x, from compR x y,
-rw [S],
-split,
-{tauto,},
-{tauto,}
-}
+{intro Sxy, cases Sxy, assumption},
+{intro nRyx, have Rxy : R x y ∨ R y x, from compR x y, rw [S], tauto}
 end
 
 
 /- 1.9 b -/
 theorem propb (compR : complete R) (trnsR : transitive R)(x : A)(y : A): S x y → ¬ S y x :=
 begin
-intro sxy,
-intro syx,
-cases sxy,
-cases syx,
-tauto,
+intros Sxy Syx, cases Sxy, cases Syx, tauto,
 end
 
 /- 1.9 d -/
 theorem propd (compR : complete R) (trnsR : transitive R)(x : A): I x x :=
 begin
-have rxx : R x x ∨ R x x, from compR x x,
-simp at *,
-rw [I],
-split,
-tauto,
-tauto,
+have rxx : R x x ∨ R x x, from compR x x, rw [I], tauto,
 end
 
 /- 1.9 e -/
 theorem prope (compR : complete R) (trnsR : transitive R)(x : A)(y : A): I x y → I y x :=
 begin
-intro ixy,
-cases ixy,
-rw [I],
-split,
-tauto,
-tauto,
+intro Ixy, cases Ixy, rw [I], tauto,
 end
 
 /- 1.9 f -/
 theorem propf (compR : complete R) (trnsR : transitive R)(x : A)(y : A)(z : A): 
 (I x y ∧ I y z) → I x z :=
 begin
-intro IxyandIyz,
-cases IxyandIyz,
-cases IxyandIyz_right, cases IxyandIyz_left,
-rw [I],
-split,
-tauto,
-tauto,
+intro IxyandIyz, cases IxyandIyz, rename [IxyandIyz_left Ixy, IxyandIyz_right Iyz], cases Ixy, cases Iyz, rw [I], tauto,
 end
 
 /- 1.9 g -/
 theorem propg (compR : complete R) (trnsR : transitive R)(x : A)(y : A)(z : A): (S x y ∧ R y z) → S x z :=
 begin
-intro sxyandryz,
-cases sxyandryz,
-cases sxyandryz_left,
-rw [S],
-split,
-{
-  have rxz : R x z, from trnsR sxyandryz_left_left sxyandryz_right,
-  tauto
-},
-{
-  have rxz : R x z, from trnsR sxyandryz_left_left sxyandryz_right,
-  assume rzx : R z x,
-  have ryx : R y x, from trnsR sxyandryz_right rzx,
-  tauto,
-}
+intro SxyandRyz, cases SxyandRyz, rename [SxyandRyz_left Sxy, SxyandRyz_right Ryz], cases Sxy, rw [S], split,
+{rename[Sxy_left Rxy, Sxy_right nRyx], have Rxz : R x z, from trnsR Rxy Ryz, assumption,},
+{rename[Sxy_left Rxy, Sxy_right nRyx], by_contra Rzx, have Ryx : R y x, from trnsR Ryz Rzx, tauto,}
 end
 
 
 /- 1.9 h -/
 theorem proph (compR : complete R) (trnsR : transitive R)(x : A)(y : A)(z : A): (S x y ∧ S y z) → S x z :=
 begin
-intro sxyandsyx,
-cases sxyandsyx,
-cases sxyandsyx_right,
-exact propg compR trnsR x y z (and.intro sxyandsyx_left sxyandsyx_right_left)
+intro SxyandSyx, cases SxyandSyx, rename[SxyandSyx_left Sxy, SxyandSyx_right Syz], rw [S] at Syz, cases Syz, rename[Syz_left Ryz, Syz_right nRzy], exact propg compR trnsR x y z (and.intro Sxy Ryz), 
 end
-
-
 
 /- 1.9 c -/
 theorem propc (compR : complete R) (trnsR : transitive R)(x : A)(y : A)(z : A): S x y → (S z y ∨ S x z) :=
 begin
-intro sxy,
-have h1 : R y z ∨ R z y, from compR y z,
-have h2 : R x z ∨ R z x, from compR x z,
-cases sxy,
-cases h1,
-cases h2,
+intro sxy, have h1 : R y z ∨ R z y, from compR y z, have h2 : R x z ∨ R z x, from compR x z, cases sxy, cases h1, cases h2,
 {rename [sxy_left rxy, sxy_right nryx, h1 ryz, h2 rxz],
 have sxy : S x y, from and.intro rxy nryx,
 have sxz : S x z, from propg compR trnsR x y z (and.intro sxy ryz),
