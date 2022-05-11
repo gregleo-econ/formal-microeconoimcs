@@ -25,8 +25,7 @@ def I (a b : A) : Prop := R a b ∧ R b a
 /-≻ is irreflexive-/
 theorem S_Irreflexive (compR : complete R) (trnsR : transitive R)(x : A): ¬ S x x :=
 begin
-rw S,
-tauto,
+rw S, tauto,
 end
 
 /-If x≻y≿z then x≻z -/

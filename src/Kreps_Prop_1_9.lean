@@ -22,19 +22,20 @@ def I (a b : A) : Prop := R a b ∧ R b a
 
 /-Prop 1.9 https://assets.press.princeton.edu/chapters/s9890.pdf-/
 
-/- 1.9 a -/
+/- 1.9 a -/ 
 theorem propa (compR : complete R) (x : A)(y : A): S x y ↔ ¬ R y x :=
 begin
-split,
-{intro Sxy, cases Sxy, assumption},
-{intro nRyx, have Rxy : R x y ∨ R y x, from compR x y, rw [S], tauto}
+split, 
+{intro Sxy, cases Sxy, assumption,},
+{intro nRyx, rw [S], have RxyOrRyx : R x y ∨ R y x, from compR x y, tauto,}
+
 end
 
 
 /- 1.9 b -/
 theorem propb (compR : complete R) (trnsR : transitive R)(x : A)(y : A): S x y → ¬ S y x :=
 begin
-intros Sxy Syx, cases Sxy, cases Syx, tauto,
+intros Sxy nSyx, rw [S] at *, tauto,
 end
 
 /- 1.9 d -/
@@ -60,7 +61,7 @@ end
 theorem propg (compR : complete R) (trnsR : transitive R)(x : A)(y : A)(z : A): (S x y ∧ R y z) → S x z :=
 begin
 intro SxyandRyz, cases SxyandRyz, rename [SxyandRyz_left Sxy, SxyandRyz_right Ryz], cases Sxy, rw [S], split,
-{rename[Sxy_left Rxy, Sxy_right nRyx], have Rxz : R x z, from trnsR Rxy Ryz, assumption,},
+{rename [Sxy_left Rxy, Sxy_right nRyx], exact trnsR Rxy Ryz,},
 {rename[Sxy_left Rxy, Sxy_right nRyx], by_contra Rzx, have Ryx : R y x, from trnsR Ryz Rzx, tauto,}
 end
 
